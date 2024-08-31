@@ -114,14 +114,10 @@ async function pollProgress() {
             .then(response => response.json())
             .then(data => {
                 const percentComplete = data.progress;
-                if (!Number.isNaN(Number(percentComplete))) {
-                    progressBar.style.width = percentComplete + '%';
-                    
-                    if (percentComplete >= 100) {
-                        clearInterval(intervalId);
-                        progressContainer.style.display = 'none';
-                        resolve();
-                    }
+                if (percentComplete >= 100) {
+                    clearInterval(intervalId);
+                    progressContainer.style.display = 'none';
+                    resolve();
                 }
             })
             .catch(error => console.error('Error fetching progress:', error));
