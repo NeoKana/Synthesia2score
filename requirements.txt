@@ -1,10 +1,11 @@
 APScheduler==3.10.4
 Flask==1.1.1
 Jinja2==2.11.3
+markupsafe==2.0.1
 matplotlib==3.4.3
 music21==7.3.3
 numpy
 opencv_contrib_python
 opencv_python
 pretty_midi==0.2.10
-gunicorn==23.0.0
+gunicorn
