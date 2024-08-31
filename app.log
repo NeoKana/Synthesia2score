@@ -1,0 +1,12 @@
+INFO:apscheduler.scheduler:Adding job tentatively -- it will be properly scheduled when the scheduler starts
+INFO:apscheduler.scheduler:Added job "delete_old_files" to job store "default"
+INFO:apscheduler.scheduler:Scheduler started
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 236-729-539
+INFO:werkzeug: * Running on http://localhost:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [25/Aug/2024 19:35:59] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Aug/2024 19:36:01] "GET /synthesia2score_main HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Aug/2024 19:36:09] "GET /synthesia2score_main HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Aug/2024 19:36:24] "GET /synthesia2score_main HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Aug/2024 19:37:18] "POST /upload HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/Aug/2024 19:37:19] "GET /progress HTTP/1.1" 200 -
