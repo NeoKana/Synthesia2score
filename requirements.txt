@@ -1,8 +1,6 @@
 APScheduler==3.10.4
 Flask==1.1.1
 matplotlib==3.4.3
-matplotlib==3.2.1
-matplotlib==3.1.0
 music21==7.3.3
 numpy==1.18.5
 numpy==1.21.2
@@ -11,3 +9,4 @@ numpy==1.16.4
 opencv_contrib_python==4.2.0.34
 opencv_python==4.2.0.34
 pretty_midi==0.2.10
+gunicorn==23.0.0
