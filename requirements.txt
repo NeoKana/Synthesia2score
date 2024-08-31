@@ -1,7 +1,5 @@
 APScheduler==3.10.4
-Flask==1.1.1
-Jinja2==2.11.3
-markupsafe==2.0.1
+Flask
 matplotlib==3.4.3
 music21==7.3.3
 numpy
