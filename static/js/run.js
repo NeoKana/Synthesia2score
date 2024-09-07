@@ -114,6 +114,7 @@ async function pollProgress() {
             .then(response => response.json())
             .then(data => {
                 const percentComplete = data.progress;
+                progressBar.style.width = `${percentComplete}%`;
                 if (percentComplete >= 100) {
                     clearInterval(intervalId);
                     progressContainer.style.display = 'none';

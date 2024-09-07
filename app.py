@@ -1,79 +1,79 @@
-from flask import Flask, request, redirect, send_file, render_template, abort, jsonify
+from flask import Flask, request, redirect, send_file, render_template, jsonify
 import os
 from threading import Thread
 from Synthesia2midi import mp42midi
-from apscheduler.schedulers.background import BackgroundScheduler
-import time
-from datetime import datetime, timedelta 
-import sqlite3
+# from apscheduler.schedulers.background import BackgroundScheduler
+# import time
+# from datetime import datetime, timedelta 
+# import sqlite3
 
 # --------------------------------------------------------------------------------
 # ログ用ファイル作成
 # データベースに接続
-conn = sqlite3.connect('site_data.db')
-cursor = conn.cursor()
+# conn = sqlite3.connect('site_data.db')
+# cursor = conn.cursor()
 
 # テーブル作成（存在しない場合）
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS site_data (
-    date TEXT,
-    site_name TEXT,
-    access INTEGER,
-    convert INTEGER,
-    download INTEGER,
-    PRIMARY KEY (date, site_name)
-)
-''')
+# cursor.execute('''
+# CREATE TABLE IF NOT EXISTS site_data (
+#     date TEXT,
+#     site_name TEXT,
+#     access INTEGER,
+#     convert INTEGER,
+#     download INTEGER,
+#     PRIMARY KEY (date, site_name)
+# )
+# ''')
 
 # コミットして接続を閉じる
-conn.commit()
-conn.close()
+# conn.commit()
+# conn.close()
 
 # --------------------------------------------------------------------------------
 
 
-def update_counts(site_name, access_type):
-    if access_type not in ['access', 'convert', 'download']:
-        raise ValueError("Invalid access_type. Must be 'access', 'convert', or 'download'.")
+# def update_counts(site_name, access_type):
+#     if access_type not in ['access', 'convert', 'download']:
+#         raise ValueError("Invalid access_type. Must be 'access', 'convert', or 'download'.")
 
-    # 現在の日付を取得
-    today_date = datetime.now().strftime('%Y-%m-%d')
+#     # 現在の日付を取得
+#     today_date = datetime.now().strftime('%Y-%m-%d')
 
-    # データベースに接続
-    conn = sqlite3.connect('site_data.db')
-    cursor = conn.cursor()
+#     # データベースに接続
+#     conn = sqlite3.connect('site_data.db')
+#     cursor = conn.cursor()
 
-    # 既存のカウントを取得
-    cursor.execute('''
-    SELECT access, convert, download
-    FROM site_data
-    WHERE date = ? AND site_name = ?
-    ''', (today_date, site_name))
+#     # 既存のカウントを取得
+#     cursor.execute('''
+#     SELECT access, convert, download
+#     FROM site_data
+#     WHERE date = ? AND site_name = ?
+#     ''', (today_date, site_name))
     
-    row = cursor.fetchone()
+#     row = cursor.fetchone()
 
-    # カウントを更新
-    if row:
-        access, convert, download = row
-    else:
-        access, convert, download = 0, 0, 0
+#     # カウントを更新
+#     if row:
+#         access, convert, download = row
+#     else:
+#         access, convert, download = 0, 0, 0
 
-    if access_type == 'access':
-        access += 1
-    elif access_type == 'convert':
-        convert += 1
-    elif access_type == 'download':
-        download += 1
+#     if access_type == 'access':
+#         access += 1
+#     elif access_type == 'convert':
+#         convert += 1
+#     elif access_type == 'download':
+#         download += 1
 
-    # データを挿入または更新
-    cursor.execute('''
-    INSERT OR REPLACE INTO site_data (date, site_name, access, convert, download)
-    VALUES (?, ?, ?, ?, ?)
-    ''', (today_date, site_name, access, convert, download))
+#     # データを挿入または更新
+#     cursor.execute('''
+#     INSERT OR REPLACE INTO site_data (date, site_name, access, convert, download)
+#     VALUES (?, ?, ?, ?, ?)
+#     ''', (today_date, site_name, access, convert, download))
 
-    # コミットして接続を閉じる
-    conn.commit()
-    conn.close()
+#     # コミットして接続を閉じる
+#     conn.commit()
+#     conn.close()
 
 
 app = Flask(__name__)
@@ -87,43 +87,43 @@ PROGRESS_FILE = "progress.txt"
 
 # --------------------------------------------------------------------------------
 # スケジューラのセットアップ
-scheduler = BackgroundScheduler()
+# scheduler = BackgroundScheduler()
 
 # 定期的に実行するタスク
-def delete_old_files():
-    now = datetime.now()
-    for filename in os.listdir(UPLOAD_FOLDER):
-        file_path = os.path.join(UPLOAD_FOLDER, filename)
-        if os.path.isfile(file_path):
-            creation_time = datetime.fromtimestamp(os.path.getctime(file_path))
-            if now - creation_time > timedelta(hours=24):
-                os.remove(file_path)
+# def delete_old_files():
+#     now = datetime.now()
+#     for filename in os.listdir(UPLOAD_FOLDER):
+#         file_path = os.path.join(UPLOAD_FOLDER, filename)
+#         if os.path.isfile(file_path):
+#             creation_time = datetime.fromtimestamp(os.path.getctime(file_path))
+#             if now - creation_time > timedelta(hours=24):
+#                 os.remove(file_path)
                 
-    for filename in os.listdir(PROCESSED_FOLDER):
-        file_path = os.path.join(PROCESSED_FOLDER, filename)
-        if os.path.isfile(file_path):
-            creation_time = datetime.fromtimestamp(os.path.getctime(file_path))
-            if now - creation_time > timedelta(hours=24):
-                os.remove(file_path)
+#     for filename in os.listdir(PROCESSED_FOLDER):
+#         file_path = os.path.join(PROCESSED_FOLDER, filename)
+#         if os.path.isfile(file_path):
+#             creation_time = datetime.fromtimestamp(os.path.getctime(file_path))
+#             if now - creation_time > timedelta(hours=24):
+#                 os.remove(file_path)
                 
 # スケジューラでタスクを毎時間実行
-scheduler.add_job(delete_old_files, 'interval', hours=1)
-scheduler.start()
+# scheduler.add_job(delete_old_files, 'interval', hours=1)
+# scheduler.start()
 # --------------------------------------------------------------------------------
 
 @app.route('/')
 def upload_form():
-    update_counts("MIDI_converter", "access")
+    # update_counts("MIDI_converter", "access")
     return render_template('synthesia2midi.html')
 
 @app.route('/synthesia2midi')
 def upload_form_synthesia2score():
-    update_counts("MIDI_converter", "access")
+    # update_counts("MIDI_converter", "access")
     return render_template('synthesia2midi.html')
 
 @app.route('/synthesia2midi/upload', methods=['POST'])
 def upload_file():
-    update_counts("MIDI_converter", "convert")
+    # update_counts("MIDI_converter", "convert")
     if 'file' not in request.files:
         return redirect(request.url)
     file = request.files['file']
@@ -154,7 +154,7 @@ def get_progress():
 
 @app.route('/synthesia2midi/download', methods=['POST'])
 def download():
-    update_counts("MIDI_converter", "download")
+    # update_counts("MIDI_converter", "download")
     data = request.json  # JSON データを取得
     filename = data.get('filename') # /processed/....midi
     try:
@@ -177,7 +177,8 @@ if __name__ == '__main__':
     # ディレクトリが存在しない場合は作成する
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     os.makedirs(PROCESSED_FOLDER, exist_ok=True)
-    try:
-        app.run(debug=True)
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
+    app.run(debug=True)
+    # try:
+    #     app.run(debug=True)
+    # except (KeyboardInterrupt, SystemExit):
+    #     scheduler.shutdown()
