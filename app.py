@@ -178,6 +178,6 @@ if __name__ == '__main__':
     os.makedirs(UPLOAD_FOLDER, exist_ok=True)
     os.makedirs(PROCESSED_FOLDER, exist_ok=True)
     try:
-        app.run(debug=True, host="0.0.0.0")
+        app.run(debug=True)
     except (KeyboardInterrupt, SystemExit):
         scheduler.shutdown()
