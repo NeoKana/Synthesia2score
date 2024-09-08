@@ -2,9 +2,10 @@
 
 ## Overview
 
-This repository provides a tool to convert Synthesia-created videos (mp4) into MIDI files. 
+This repository provides a website to convert Synthesia-created videos (mp4) into MIDI files. 
 Synthesia is a software that allows users to play and learn music by visualizing falling notes. 
 With this tool, you can transform these videos into MIDI files, which can then be easily imported into notation software like MuseScore to view sheet music.
+**Note that conversion works well only with the videos with clear bar lines.**
 
 ![Local Image](https://github.com/NeoKana/Synthesia2score/blob/master/static/img/midi_converter.drawio.png)
 
@@ -22,10 +23,9 @@ git clone https://github.com/NeoKana/Synthesia2score.git
 
 ### 2. Install Required Libraries
 
-Navigate to the project directory and install the necessary libraries listed in requirements.txt using pip:
+Install the necessary libraries listed in requirements.txt using pip:
 
 ```bash
-cd yourrepository
 pip install -r requirements.txt
 ```
 
